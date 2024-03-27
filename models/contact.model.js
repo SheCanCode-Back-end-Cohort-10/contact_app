@@ -16,7 +16,8 @@ const contactModel=new mongoose.Schema({
     },
     message:{
         type:String,
-        required:true
+        required:true,
+        default:"my contact"
     },
     
 },{timestamps:true});
