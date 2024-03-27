@@ -21,4 +21,4 @@ const contactModel=new mongoose.Schema({
     
 },{timestamps:true});
 
-export default contactModel
+export default contactModel;
