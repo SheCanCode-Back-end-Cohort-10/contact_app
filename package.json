@@ -12,9 +12,9 @@
   "description": "This is a contact app that mimics the way we use contact apps in our phones or PCs. This back-end server will provide a complete API that can be used by a desktop, web, or mobile contact application.",
   "version": "1.0.0",
   "main": "index.js",
-  "type":"module",
-  "scripts": {  
-    "dev":"nodemon",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon",
     "start": "node index.js"
   },
   "repository": {
