@@ -1,6 +1,6 @@
 const configs = {
-    port: process.env.PORT||5000,
-    mongoURI: process.env.MONGODB_URI||"mongodb+srv://Alice:12345@cluster0.6eqmb7j.mongodb.net/contacts",
+    port: process.env.PORT,
+    mongoURI: process.env.MONGODB_URI,
     secret: process.env.SECRET
 }
 
