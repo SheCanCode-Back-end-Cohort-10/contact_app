@@ -11,7 +11,7 @@ const contactControllers={
             }
             else{
                 const newContact = await contactModel.create(req.body);
-                res.status(201).json({msg:"Contact created successfully", newContact: newContact});    
+                res.status(201).json({msg:"Contact created successfully", contact: newContact});    
             }
         } catch (error) {
             res.status(500).send({error: error.message});
@@ -20,7 +20,7 @@ const contactControllers={
     listContacts: async(req, res)=>{
         try {
             const allContacts = await contactModel.find(req.body);
-            res.status(200).json({msg:"All contacts found", allContacts})
+            res.status(200).json({msg:"All contacts found", contact: allContacts})
         } catch (error) {
             res.status(500).send({error: error.message});
         }
@@ -28,7 +28,7 @@ const contactControllers={
     updateByEmail: async(req, res)=>{
         try {
             const findContactByEmail = await contactModel.findOne({email:req.params.email});
-            res.status(200).json({msg:"Contact updated", findContactByEmail})
+            res.status(200).json({msg:"Contact updated", contact: findContactByEmail})
         } catch (error) {
             res.status(500).send({error: error.message});
         }
@@ -41,7 +41,7 @@ const contactControllers={
             }
             else {
                 const updateContactById = await contactModel.findByIdAndUpdate({ContactIdId});
-                res.status(200).json({msg:"Contact updated", updateContactById});
+                res.status(200).json({msg:"Contact updated", contact: updateContactById});
             }
         } catch (error) {
             res.status(500).send({error: error.message});
@@ -55,7 +55,7 @@ const contactControllers={
             }
             else {
                 const deleteContactById = await contactModel.findByIdAndDelete({newId});
-                res.status(200).json({msg:"Contact deleted", deleteContactById});
+                res.status(200).json({msg:"Contact deleted", contact: deleteContactById});
             }
         } catch (error) {
             res.status(500).send({error: error.message});
@@ -69,10 +69,10 @@ const contactControllers={
             }
             else {
                 const deleteContactByEmail = await contactModel.findOneAndDelete({emailAddress});
-                res.status(200).json({msg:"Contact deleted", deleteContactBy});
+                res.status(200).json({msg:"Contact deleted", contact: deleteContactByEmail});
             }
         } catch (error) {
-            
+            res.status(500).send({error: error.message});
         }
     }
 }
