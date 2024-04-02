@@ -16,7 +16,7 @@ const contactSchema =new mongoose.Schema({
     phone: {
         type: String,
         required:[true, "Phone number is required"],
-        unique:[true, "Phone number must be unique"]
+        unique:true
     },
     workPhone: {
         type: String,
