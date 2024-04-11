@@ -1,0 +1,256 @@
+{
+    "swagger":"2.0",
+    "info":{
+        "title":"Contact_app",
+        "description":"An API for Contacts",
+        "version":"8.0.0"
+    },
+    "host":"localhost:1000",
+    "schemes":["http","https"],
+    "basePath": "",
+    "paths":{
+        "/contact_app/":{
+          "post":{
+            "summary": "Create a contact",
+            "description": "Create a new contact",
+            "tags": ["Contacts"],
+            "parameters": [
+              {
+                "in": "body",
+                "name": "body",
+                "schema": {
+                  "$ref": "#/definition/Contact"
+                },
+                "required": true,
+                "description": "Contact object"
+              }
+            ],
+            "responses": {
+              "201": {
+                "description": "Contact created"
+              }
+            }
+         },
+         "get": {
+          "summary": "List all contacts",
+          "description": "Retrieve a list of all contacts stored in the database",
+          "tags":["Contacts"],
+          "responses": {
+            "200": {
+              "description": "Successfully retrieved list of contacts",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "No contacts found"
+            },
+            "500": {
+              "description": "Internal server error"
+            }
+          }
+         }
+        },
+        "/contact_app/id/{id}":{
+          "delete": {
+            "summary": "Delete a contact by ID",
+            "description": "Delete a contact by ID",
+            "tags": ["Contacts"],
+            "parameters": [
+              {
+                "name": "id",
+                "in": "path",
+                "description": "ID of the contact to delete",
+                "required": true,
+                "schema": {
+                  "type": "string"
+                }
+              }
+            ],
+            "responses": {
+              "204": {
+                "description": "Contact deleted"
+              },
+              "404": {
+                "description": "Contact not found"
+              }
+            }
+          },
+          "get": {
+            "summary": "Get a contact by ID",
+            "description": "Get a contact by ID",
+            "tags": ["Contacts"],
+            "parameters": [
+              {
+                "name": "id",
+                "in": "path",
+                "description": "ID of the contact to retrieve",
+                "required": true,
+                "schema": {
+                  "type": "string"
+                }
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "Successful response"
+              },
+              "404": {
+                "description": "Contact not found"
+              }
+            }
+          },
+          "patch": {
+            "summary": "Update a contact by ID",
+            "description": "Update the information of a contact by ID",
+            "tags": ["Contacts"],
+            "parameters": [
+              {
+                "name": "id",
+                "in": "path",
+                "description": "ID of the contact to update",
+                "required": true,
+                "schema": {
+                  "type": "string"
+                }
+              },
+              {
+                "in": "body",
+                "name": "body",
+                "description": "Updated contact information",
+                "required": true,
+                "schema": {
+                  "$ref": "#/definitions/Contact"
+                }
+              }
+            ],
+            "responses": {
+              "204": {
+                "description": "Contact updated successfully"
+              },
+              "404": {
+                "description": "Contact not found"
+              }
+            }
+           }
+        },
+            "/contact_app/email/{email}":{
+              "delete": {
+                "summary": "Delete a contact by Email",
+                "description": "Delete a contact by Email",
+                "tags": ["Contacts"],
+                "parameters": [
+                  {
+                    "name": "email",
+                    "in": "path",
+                    "description": "email of the contact to delete",
+                    "required": true,
+                    "schema": {
+                      "type": "string"
+                    }
+                  }
+                ],
+                "responses": {
+                  "204": {
+                    "description": "Contact deleted"
+                  },
+                  "404": {
+                    "description": "Contact not found"
+                  }
+                }
+              },
+              "get": {
+                "summary": "Get a contact by Email",
+                "description": "Get a contact by Email",
+                "tags": ["Contacts"],
+                "parameters": [
+                  {
+                    "name": "email",
+                    "in": "path",
+                    "description": "email of the contact to retrieve",
+                    "required": true,
+                    "schema": {
+                      "type": "string"
+                    }
+                  }
+                ],
+                "responses": {
+                  "200": {
+                    "description": "Successful response"
+                  },
+                  "404": {
+                    "description": "Contact not found"
+                  }
+                }
+              },
+              "patch": {
+                "summary": "Update a contact by Email",
+                "description": "Update the information of a contact by Email",
+                "tags": ["Contacts"],
+                "parameters": [
+                  {
+                    "name": "email",
+                    "in": "path",
+                    "description": "Email of the contact to update",
+                    "required": true,
+                    "schema": {
+                      "type": "string"
+                    }
+                  },
+                  {
+                    "in": "body",
+                    "name": "body",
+                    "description": "Updated contact information",
+                    "required": true,
+                    "schema": {
+                      "$ref": "#/definitions/Contact"
+                    }
+                  }
+                ],
+                "responses": {
+                  "204": {
+                    "description": "Contact updated successfully"
+                  },
+                  "404": {
+                    "description": "Contact not found"
+                  }
+                }
+              }
+            }
+          }
+           ,
+    "definition": {
+        "Contact": {
+          "type": "object",
+          "properties": {
+            "firstName": {
+              "type": "string"
+            },
+            "lastName": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string",
+              "default": "@gmail.com"
+            },
+            "phone": {
+              "type": "string"
+            },
+            "address": {
+              "type": "string"
+            },
+            "company": {
+                "type": "string"
+            },
+            "workPhone": {
+              "type": "string"
+            }
+          },
+          "required": ["name", "email", "address", "pronoun", "company"]
+        }
+      }
+}

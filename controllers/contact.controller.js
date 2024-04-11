@@ -1,178 +1,102 @@
 // Contact controllers here
+
 // Contact controllers here
-import contactModel from "../models/contact.model.js"
-// import errorHandler from "../errorHandler/contactErrorHandler.js"
 
-const contactController={
+import contactModel from '../models/contact.model.js'
 
-//create new contact
-createContact:async(req,res)=>{
-try{
-    const addContact=await contactModel.create(req.body)
-    res.status(201).json({
-        message:"Contact created successfully",
-        contact:addContact
-    })
-
-}
-catch(eror){
-
-console.log(eror.message);
-}
-},
-
-//get all contacts
-getAllContact:async(req,res)=>{
-    try{
-        const getContact=await contactModel.find()
-        res.status(201).json({
-            message:"list of contacts you have",
-            contact:getContact
-        })
-    
-    }
-    catch(eror){
-    
-    console.log(eror.message);
-    }
+const contactControllers={
+    createContact: async(req, res)=>{
+        try {
+            const alreadyExist=await contactModel.findOne({phone: req.body.phone})
+            if(alreadyExist) {
+                res.status(200).send({message: "Contact already exists"});
+            }
+            else{
+                const newContact = await contactModel.create(req.body);
+                res.status(201).json({msg:"Contact created successfully", contact: newContact});    
+            }
+        } catch (error) {
+            res.status(500).send({msg:"Error creating contact", error: error});
+        }
     },
-
-    //get contact by id
-    getContactById:async(req,res)=>{
-        try{
-            
-            const idContact=await contactModel.findById(req.params.id)
-            res.status(201).json({
-                message:"get contact by id",
-                contact:idContact
-            })
-        
+    listContacts: async(req, res)=>{
+        try {
+            const allContacts = await contactModel.find(req.body);
+            res.status(200).json({msg:"All contacts found", contact: allContacts})
+        } catch (error) {
+            res.status(500).send({error: error.message});
         }
-        catch(eror){
-    
-        console.log(eror.message);
-        }
-        },
-
-        //get contact by email
-
-        getContactByEmail:async(req,res)=>{
-            try{
-                
-                const emailContact=await contactModel.findOne({email:req.params.email})
-                res.status(201).json({
-                    message:"get contact by email",
-                    contact:emailContact
-                })
-            
-            }
-            catch(eror){
-           
-            console.log(eror.message);
-            }
-            },
-
-            //get contact by firstname
-
-            getContactByFirstname:async(req,res)=>{
-                try{
-                    
-                    const firstNameContact=await contactModel.findOne({firstName:req.params.firstName})
-                    res.status(201).json({
-                        message:"get contact by firstname",
-                        contact:firstNameContact
-                    })
-                
-                }
-                catch(eror){
-               
-                console.log(eror.message);
-                }
-                },
-
-//get contact by lastname
-
- //get by firstname
- getContactByLastname:async(req,res)=>{
-    try{
-        
-        const firstNameContact=await contactModel.findOne({lastName:req.params.lastName})
-        res.status(201).json({
-            message:"get contact by lastname",
-            contact:firstNameContact
-        })
-    
-    }
-    catch(eror){
-   
-    console.log(eror.message);
-    }
     },
-
-    //get contact by phone
-
-    getContactByPhone:async(req,res)=>{
-        try{
-            
-            const phoneContact=await contactModel.findOne({phone:req.params.phone})
-            res.status(201).json({
-                message:"get contact by phone",
-                contact:phoneContact
-            })
-        
+    showByEmail: async(req, res)=>{
+        try {
+            const n=req.params.email;
+            if(!n){
+                res.status(404).send({msg:"email not found"});
+            }
+            else{
+                const showContactByEmail = await contactModel.find({email:n});
+                res.status(200).json({msg:"Contact found", contact: showContactByEmail})
+            }
+        } catch (error) {
+            res.status(500).send({error: error.message});
         }
-        catch(eror){
-       
-        console.log(eror.message);
+    },
+    updateById: async(req, res)=>{
+        try {
+                const updateContactById = await contactModel.findByIdAndUpdate(req.params.id, req.body, {
+                    new: true
+                  });
+                res.status(200).json({msg:"Contact updated", contact: updateContactById});
+            }
+        catch (error) {
+            res.status(500).send({error: error.message});
         }
-        },
-
-   
-        //delete contact 
-
-        deleteContact:async(req,res)=>{
-            try{
-                
-                const deleteContact=await contactModel.findOneAndDelete(req.params.id)
-                res.status(200).json({
-                    message:`contact deleted successfuly`,
-                    contact:deleteContact
-                })
-            
+    },
+    updateByEmail: async(req, res)=>{
+        try {
+            const ContactEmail=req.params.email;
+            if(!ContactEmail){
+                res.status(404).send({error: "Contact not found"});
             }
-            catch(eror){
-            
-            console.log(eror.message);
+            else {
+                const updateContactByEmail = await contactModel.findOneAndUpdate({email: req.params.email}, req.body, {new: true});
+                res.status(200).json({msg:"Contact updated", contact: updateContactByEmail});
             }
-            },
-
-//update contact
-
-            updateContact: async (req, res) => {
-                try {
-                    
-                    const updatedContact = await contactModel.findByIdAndUpdate(
-                        req.params.id, 
-                        req.body, 
-                        { new: true } 
-                    );
-        
-                    
-                    if (!updatedContact) {
-                        return res.status(404).json({ message: "Contact not found" });
-                    }
-        
-                   
-                    res.status(200).json({
-                        message: "Contact updated successfully",
-                        contact: updatedContact
-                    });
-                } catch (error) {
-                    // Handle any errors that occur during the update process
-                    res.status(500).json({ error: error.message });
-                }
+        } catch (error) {
+            res.status(500).send({error: error.message});
+        }
+    },
+    deleteById: async(req, res)=>{
+        try {
+                const deleteContactById = await contactModel.findByIdAndDelete(req.params.id);
+                res.status(200).json({msg:"Contact deleted", contact: deleteContactById});
             }
-    
+        catch (error) {
+            res.status(500).send({error: error.message});
+        }
+    },
+    showById: async(req, res)=>{
+        try {
+            if(!req.params.id) {
+                res.status(404).send({error: "Contact not found"});
+            }
+            else{
+                const findContactById = await contactModel.findById(req.params.id);
+                res.status(200).json({msg:"Contact found", contact: findContactById})    
+            }
+        } catch (error) {
+            res.status(500).send({error: error.message});
+        }
+    },
+    deleteByEmail: async(req, res)=>{
+        try {
+                const deletedContactByEmail = await contactModel.findOneAndDelete({email: req.params.email});
+                res.status(200).json({msg:"Contact deleted", contact: deletedContactByEmail});
+            }
+        catch (error) {
+            res.status(500).send({error: error.message});
+        }
+    }
 }
 
-export default contactController
+export default contactControllers;

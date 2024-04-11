@@ -1,21 +1,20 @@
 // Contact routes here
 
-import express from 'express';
-import contactController from '../controllers/contact.controller.js';
-const router=express.Router();
-
-//create account route
-router.route('/create').post(contactController.createContact);
-router.route('/list').get(contactController.getAllContact);
-router.route('/list/:id').get(contactController.getContactById);
-router.route('/email/:email').get(contactController.getContactByEmail);
-router.route('/phone/:phone').get(contactController.getContactByPhone);
-router.route('/firstname/:firstName').get(contactController.getContactByFirstname);
-router.route('/lastname/:lastName').get(contactController.getContactByLastname);
-router.route('/list/:id').delete(contactController.deleteContact);
-router.route('/update/:id').put(contactController.updateContact);
-
-export default router
 
 
+// Contact routes here
+import expresss from'express';
 
+import contactControllers from '../controllers/contact.controller.js';
+
+
+const router = expresss.Router();
+
+
+router.route('/').post(contactControllers.createContact).get(contactControllers.listContacts);
+
+router.route('/id/:id').patch(contactControllers.updateById).delete(contactControllers.deleteById).get(contactControllers.showById);
+
+router.route('/email/:email').patch(contactControllers.updateByEmail).delete(contactControllers.deleteByEmail).get(contactControllers.showByEmail);
+
+export default router;
