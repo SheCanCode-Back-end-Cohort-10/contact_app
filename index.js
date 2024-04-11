@@ -7,6 +7,8 @@ import configuration from './configs/index.js';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import swagger from "./docs/swagger.json" assert { type: "json" };
+import errorHandler from './errorHandler/contactErrorHandler.js';
+
 
 app.use(express.json());
 app.use(cors());
@@ -25,7 +27,9 @@ mongoose.connect(configuration.mongoURI)
         console.log("MongoDB is connected")
         console.log("listening on port "+configuration.port);
     });
-})
+    app.use(errorHandler.notFound)
+    app.use(errorHandler.serverError)
+   })
 .catch(err => {
     console.log(err);
 });
